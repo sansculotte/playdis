@@ -10,13 +10,9 @@ def loop_image_sequence(screen, clock, images, number_of_images, fps):
     """
     Loop play images at the specified fps
     """
+    running = True
     i = 0
-    while 1:
-        for event in pygame.event.get():
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.QUIT:
-                    return
-
+    while running:
         screen.fill((0, 0, 0))
         screen.blit(images[i], (0, 0))
         pygame.display.update()
@@ -24,13 +20,23 @@ def loop_image_sequence(screen, clock, images, number_of_images, fps):
         clock.tick(fps)
         i = (i + 1) % number_of_images
 
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.QUIT:
+                    running = False
+
 
 def switch_image_sequence(screen, images, number_of_images):
     """
     Switch images for- and backward with the arrow keys
     """
+    running = True
     i = 0
-    while 1:
+    while running:
+        screen.fill((0, 0, 0))
+        screen.blit(images[i], (0, 0))
+        pygame.display.update()
+
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
@@ -38,11 +44,7 @@ def switch_image_sequence(screen, images, number_of_images):
                 if event.key == pygame.K_RIGHT:
                     i = (i + 1) % number_of_images
                 if event.key == pygame.QUIT:
-                    return
-
-        screen.fill((0, 0, 0))
-        screen.blit(images[i], (0, 0))
-        pygame.display.update()
+                    running = False
 
 
 def display_images(args, images, number_of_images):
