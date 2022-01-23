@@ -7,10 +7,13 @@ from glob import glob
 
 
 def loop_image_sequence(screen, clock, images, number_of_images, fps):
+    """
+    Loop play images at the specified fps
+    """
     i = 0
     while 1:
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
+            if event.key == pygame.QUIT:
                 return
 
         screen.fill((0, 0, 0))
@@ -22,19 +25,37 @@ def loop_image_sequence(screen, clock, images, number_of_images, fps):
 
 
 def switch_image_sequence(screen, images, number_of_images):
-    pass
+    """
+    Switch images for- and backward with the arrow keys
+    """
+    i = 0
+    while 1:
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_LEFT:
+                    i = (i - 1) % number_of_images
+                if event.key == pygame.K_RIGHT:
+                    i = (i + 1) % number_of_images
+                if event.key == pygame.QUIT:
+                    return
+
+        screen.fill((0, 0, 0))
+        screen.blit(images[i], (0, 0))
+        pygame.display.update()
 
 
 def display_images(args, images, number_of_images):
     pygame.init()
+
     screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+    clock = pygame.time.Clock()
 
     if args.play:
-        clock = pygame.time.Clock()
         loop_image_sequence(screen, clock, images, number_of_images, args.fps)
     else:
         switch_image_sequence(screen, images, number_of_images)
 
+    pygame.display.quit()
     pygame.quit()
 
 
@@ -63,3 +84,4 @@ if __name__ == '__main__':
     ap.add_argument('-p', '--play', action='store_true', help='play image sequence')
     args = ap.parse_args()
     main(args)
+    sys.exit()
