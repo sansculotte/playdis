@@ -52,10 +52,10 @@ def display_images(args, images, number_of_images):
     screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
     clock = pygame.time.Clock()
 
-    if args.play:
-        loop_image_sequence(screen, clock, images, number_of_images, args.fps)
-    else:
+    if args.manual:
         switch_image_sequence(screen, images, number_of_images)
+    else:
+        loop_image_sequence(screen, clock, images, number_of_images, args.fps)
 
     pygame.display.quit()
     pygame.quit()
@@ -86,7 +86,7 @@ if __name__ == '__main__':
         help='image files to display. may contain glob characters'
     )
     ap.add_argument('-f', '--fps', type=float, default=25)
-    ap.add_argument('-p', '--play', action='store_true', help='play image sequence')
+    ap.add_argument('-m', '--manual', action='store_true', help='switch images forward/back with arrow keys')
     args = ap.parse_args()
     main(args)
     sys.exit()
