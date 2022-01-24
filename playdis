@@ -21,7 +21,7 @@ def loop_image_sequence(screen, clock, images, number_of_images, fps):
 
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.QUIT:
+                if event.key in (pygame.QUIT, pygame.K_ESCAPE, pygame.K_q):
                     running = False
 
 
@@ -42,7 +42,7 @@ def switch_image_sequence(screen, images, number_of_images):
                     i = (i - 1) % number_of_images
                 if event.key == pygame.K_RIGHT:
                     i = (i + 1) % number_of_images
-                if event.key == pygame.QUIT:
+                if event.key in (pygame.QUIT, pygame.K_ESCAPE, pygame.K_q):
                     running = False
 
 
