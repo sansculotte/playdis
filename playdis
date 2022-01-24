@@ -3,7 +3,6 @@ from __future__ import print_function
 import argparse
 import pygame
 import sys
-from glob import glob
 
 
 def loop_image_sequence(screen, clock, images, number_of_images, fps):
@@ -68,7 +67,7 @@ def load_images(xs):
 
 
 def main(args):
-    xs = glob(args.images)
+    xs = args.images
     if not xs:
         print('no images found')
         sys.exit()
@@ -81,8 +80,11 @@ if __name__ == '__main__':
     ap = argparse.ArgumentParser(
         description='Display images on the framebuffer'
     )
-    ap.add_argument('images',
-                    help='image files to display. may contain glob characters')
+    ap.add_argument(
+        'images',
+        nargs='+',
+        help='image files to display. may contain glob characters'
+    )
     ap.add_argument('-f', '--fps', type=float, default=25)
     ap.add_argument('-p', '--play', action='store_true', help='play image sequence')
     args = ap.parse_args()
